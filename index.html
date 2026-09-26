@@ -1455,7 +1455,21 @@
       handleDateChange();
     }
 
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      if (!menu) return;
+      menu.classList.toggle('hidden');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      if (menu && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+      }
+    }
+
     function openAuthModal() {
+      closeMobileMenu();
       const modal = document.getElementById('auth-modal');
       const input = document.getElementById('modal-user-id');
       const user = auth.currentUser;
@@ -1857,6 +1871,17 @@
     window.copyUserId = copyUserId;
     window.signInWithGoogle = signInWithGoogle;
     window.signOutUser = signOutUser;
+    window.toggleMobileMenu = toggleMobileMenu;
+    window.closeMobileMenu = closeMobileMenu;
+
+    // Close mobile dropdown menu when tapping outside
+    document.addEventListener('click', (event) => {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.getElementById('mobile-menu-btn');
+      if (menu && !menu.classList.contains('hidden') && !menu.contains(event.target) && !btn.contains(event.target)) {
+        closeMobileMenu();
+      }
+    });
 
     window.addEventListener('DOMContentLoaded', async () => {
       renderAreasScorecard();
